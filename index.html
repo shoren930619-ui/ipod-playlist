@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lovely-Retro Player</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <style>
         :root {
             --highlight-start: #5b7cfa;
@@ -84,9 +84,7 @@
             background: #f2f2f2;
             border-radius: 30px;
             padding: 20px;
-            box-shadow: 
-                -8px -8px 20px #ffffff,
-                8px 8px 20px #aeaec0;
+			box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.1);	
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -183,6 +181,10 @@
             font-size: 12px;
             font-weight: bold;
             margin-top: 2px;
+            /* 允許數字區域稍微寬一點以容納文字 */
+            min-width: 25px;
+            width: auto;
+            padding-right: 5px;
         }
         .track-item.active .track-num { color: rgba(255,255,255,0.9); }
 
@@ -384,32 +386,32 @@
                 
                 <div class="header-text">
                     <h3 contenteditable="true" spellcheck="false">與你的播放清單</h3>
-                    <p id="headerInfo" spellcheck="false"><span id="trackCount">2</span> tracks • <span contenteditable="true">2025</span></p>
+                    <p id="headerInfo"><span id="trackCount">2</span> tracks • <span contenteditable="true" spellcheck="false">2025</span></p>
                 </div>
             </div>
 
             <ul class="track-list" id="trackList">
                 <li class="track-item active">
                     <div class="btn-delete" title="刪除歌曲">×</div>
-                    <span class="track-num">1</span>
+                    <span class="track-num" contenteditable="true" spellcheck="false">1</span>
                     <div class="track-info">
                         <div class="track-top-row">
-                            <span class="track-title" contenteditable="true">晨曦下的秘密約定</span>
-                            <span class="track-genre" contenteditable="true">浪漫流行</span>
+                            <span class="track-title" contenteditable="true" spellcheck="false">晨曦下的秘密約定</span>
+                            <span class="track-genre" contenteditable="true" spellcheck="false">浪漫流行</span>
                         </div>
-                        <div class="track-lyrics" contenteditable="true">婚禮的誓言在早餐的溫柔中慢慢發酵</div>
+                        <div class="track-lyrics" contenteditable="true" spellcheck="false">婚禮的誓言在早餐的溫柔中慢慢發酵</div>
                     </div>
                 </li>
                 
                 <li class="track-item">
                     <div class="btn-delete" title="刪除歌曲">×</div>
-                    <span class="track-num">2</span>
+                    <span class="track-num" contenteditable="true" spellcheck="false">2</span>
                     <div class="track-info">
                         <div class="track-top-row">
-                            <span class="track-title" contenteditable="true">摩納哥的紅線</span>
-                            <span class="track-genre" contenteditable="true">電子合成器流行</span>
+                            <span class="track-title" contenteditable="true" spellcheck="false">摩納哥的紅線</span>
+                            <span class="track-genre" contenteditable="true" spellcheck="false">電子合成器流行</span>
                         </div>
-                        <div class="track-lyrics" contenteditable="true">引擎轟鳴在義大利賽道，迎接新生命的降臨</div>
+                        <div class="track-lyrics" contenteditable="true" spellcheck="false">引擎轟鳴在義大利賽道，迎接新生命的降臨</div>
                     </div>
                 </li>
             </ul>
@@ -437,13 +439,13 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <div class="manual-section">
-                <h2>播放清單生成器說明書</h2>
+                <h2>播放清單生成器指南</h2>
                 
                 <h3>外觀編輯</h3>
                 <ul>
                     <li><b>自訂外觀：</b>使用上方控制列調整光標漸層、螢幕底色與文字顏色</li>
-                    <li><b>更換專輯圖片：</b>點擊螢幕左上角的圖片框，可上傳照片</li>
-                    <li><b>編輯文字：</b>螢幕上的「標題、年份、歌名、歌詞、跑馬燈」皆可點擊修改</li>
+                    <li><b>更換圖片：</b>點擊螢幕左上角的圖片框，上傳你喜歡的照片</li>
+                    <li><b>編輯文字：</b>螢幕上的「標題、年份、歌名、歌詞、跑馬燈、<b>歌曲編號</b>」皆可直接點擊修改</li>
                 </ul>
 
                 <h3>歌曲管理</h3>
@@ -457,7 +459,7 @@
                 <p>設計完成後，點擊「下載圖片」按鈕，即可將播放器存成 PNG 圖檔！</p>
 
                 <div class="manual-footer">
-                     Open Source Project by SHINO • 
+                      Open Source Project by Shoren930619 • 
     <a href="https://github.com/shoren930619-ui/Lovely-Retro-Player" target="_blank" style="color:#888; text-decoration:underline;">View on GitHub</a>
                 </div>
             </div>
@@ -538,10 +540,6 @@
         function refreshTrackData() {
             const items = document.querySelectorAll('.track-item');
             document.getElementById('trackCount').innerText = items.length;
-            items.forEach((item, index) => {
-                const numSpan = item.querySelector('.track-num');
-                if (numSpan) numSpan.innerText = index + 1;
-            });
         }
 
         listContainer.addEventListener('click', (e) => {
@@ -563,17 +561,22 @@
         });
 
         document.getElementById('addTrackBtn').addEventListener('click', () => {
+            // 計算下一首的編號 (預設為當前總數+1)
+            const nextNum = document.querySelectorAll('.track-item').length + 1;
+
             const newLi = document.createElement('li');
             newLi.className = 'track-item';
+            
+            // 新增時也加入 spellcheck="false"
             newLi.innerHTML = `
                 <div class="btn-delete" title="刪除歌曲">×</div>
-                <span class="track-num"></span>
+                <span class="track-num" contenteditable="true" spellcheck="false">${nextNum}</span>
                 <div class="track-info">
                     <div class="track-top-row">
-                        <span class="track-title" contenteditable="true">新歌曲名稱</span>
-                        <span class="track-genre" contenteditable="true">曲風</span>
+                        <span class="track-title" contenteditable="true" spellcheck="false">歌曲名稱</span>
+                        <span class="track-genre" contenteditable="true" spellcheck="false">曲風</span>
                     </div>
-                    <div class="track-lyrics" contenteditable="true">輸入歌詞...</div>
+                    <div class="track-lyrics" contenteditable="true" spellcheck="false">歌詞...</div>
                 </div>
             `;
             listContainer.appendChild(newLi);
@@ -583,19 +586,36 @@
 
         refreshTrackData();
         
-        // --- 5. 下載功能 ---
+        // --- 5. 下載功能 (html-to-image) ---
         document.getElementById('downloadBtn').addEventListener('click', function() {
+            // A. 清除文字選取狀態 (避免藍色選取框被截圖)
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+            }
+
+            // B. 暫時隱藏刪除按鈕
             const deleteBtns = document.querySelectorAll('.btn-delete');
             deleteBtns.forEach(btn => btn.style.display = 'none');
 
+            // C. 獲取正確的 DOM 元素 (修正此處 ID 錯誤)
             const element = document.getElementById('capture-area');
-            html2canvas(element, { scale: 3, backgroundColor: null, useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'Lovely-Retro-Player.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                deleteBtns.forEach(btn => btn.style.display = '');
-            });
+
+            // D. 使用 htmlToImage 生成圖片
+            htmlToImage.toPng(element, { pixelRatio: 4, backgroundColor: null })
+                .then(function (dataUrl) {
+                    const link = document.createElement('a');
+                    link.download = 'Lovely-Retro-Player.png';
+                    link.href = dataUrl;
+                    link.click();
+                    
+                    // 恢復刪除按鈕
+                    deleteBtns.forEach(btn => btn.style.display = '');
+                })
+                .catch(function (error) {
+                    console.error('圖片生成失敗:', error);
+                    alert('圖片生成失敗，請檢查瀏覽器相容性。');
+                    deleteBtns.forEach(btn => btn.style.display = '');
+                });
         });
 
         // --- 6. 彈出視窗 (Modal) 控制 ---
@@ -621,5 +641,4 @@
         }
     </script>
 </body>
-
 </html>
